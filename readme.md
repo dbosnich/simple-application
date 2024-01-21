@@ -26,7 +26,7 @@ effort has been made to not compromise efficiency or flexibility.
   meaning it may not get called each frame unless fps is capped.
 
 #### Variable Updates
-  Simple::Application::UpdateStart|UpdateEnded are called with a
+  Simple::Application::UpdateStart/UpdateEnded are called with a
   variable delta time parameter once every frame. A fixed update
   will always be bookended by calls to UpdateStart / UpdateEnded.
 
