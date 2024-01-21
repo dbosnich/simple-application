@@ -81,10 +81,10 @@ protected:
     virtual void OnFrameComplete(const FrameStats& a_frameStats);
 
 private:
-    std::atomic_uint m_targetFPS = DEFAULT_TARGET_FPS;
-    std::atomic_bool m_cappedFPS = DEFAULT_CAPPED_FPS;
-    std::atomic_bool m_shutDownRequested = false;
-    std::atomic_bool m_restartRequested = false;
+    std::atomic_uint m_targetFPS = { DEFAULT_TARGET_FPS };
+    std::atomic_bool m_cappedFPS = { DEFAULT_CAPPED_FPS };
+    std::atomic_bool m_shutDownRequested = { false };
+    std::atomic_bool m_restartRequested = { false };
 };
 
 //--------------------------------------------------------------

@@ -469,9 +469,9 @@ TEST_CASE("Test Application Multiple", "[application][multiple]")
 //--------------------------------------------------------------
 TEST_CASE("Test Application Args", "[application][args]")
 {
-    constexpr int argCount = 4;
-    char* argVals[argCount] = { "arg0", "arg1", "arg2", "arg3" };
-    TestApplication testApplication(argCount, argVals);
+    constexpr int argCount = 3;
+    const char* argVals[argCount] = { "arg0", "arg1", "arg2" };
+    TestApplication testApplication(argCount, (char**)argVals);
     REQUIRE(testApplication.GetArgCount() == argCount);
     REQUIRE(testApplication.GetArgValues() == argVals);
     testApplication.Run();
