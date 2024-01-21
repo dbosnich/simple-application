@@ -7,11 +7,12 @@
 //--------------------------------------------------------------
 
 #pragma once
-//! @file
 
 #include <atomic>
 #include <chrono>
 #include <thread>
+
+//! @file
 
 //--------------------------------------------------------------
 //! The target frames per second at which to run the update loop.
