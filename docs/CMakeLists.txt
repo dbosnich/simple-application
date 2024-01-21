@@ -6,6 +6,11 @@
 ## this distribution, or at https://opensource.org/licenses/MIT
 ##--------------------------------------------------------------
 
+# Early out if generating a sub project.
+if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
+    return()
+endif()
+
 # Find Doxygen.
 find_package(Doxygen)
 
