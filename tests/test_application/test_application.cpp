@@ -359,35 +359,37 @@ inline int64_t ToMs(const TestApplication::Duration& a_duration)
 //--------------------------------------------------------------
 void TestApplication::OnFrameComplete(const FrameStats& a_stats)
 {
-    REQUIRE(a_stats.numFrames == m_updateStartCountThisRun);
+    REQUIRE(a_stats.frameCount == m_updateStartCountThisRun);
     REQUIRE((TestingWithFixedFPS() ?
-             a_stats.numFrames == m_updateFixedCountThisRun :
-             a_stats.numFrames >= m_updateFixedCountThisRun));
-    REQUIRE(a_stats.numFrames == m_updateEndedCountThisRun);
+             a_stats.frameCount == m_updateFixedCountThisRun :
+             a_stats.frameCount >= m_updateFixedCountThisRun));
+    REQUIRE(a_stats.frameCount == m_updateEndedCountThisRun);
 
     if (GetCappedFPS() && !m_testParams.runningInThread)
     {
-        REQUIRE(a_stats.actualFPS <= a_stats.targetFPS);
+        REQUIRE(a_stats.averageFPS <= a_stats.targetFPS);
         REQUIRE(a_stats.actualDur >= a_stats.targetDur);
     }
 
     if (m_testParams.printFrameStats)
     {
         printf("\n"
-               "Frame number:       %" PRIu64 "\n"
-               "Test number:        %" PRIu32 "\n"
-               "Actual FPS:         %" PRIu32 "\n"
-               "Target FPS:         %" PRIu32 "\n"
-               "Actual Duration:    %" PRIi64 " (ms)\n"
-               "Target Duration:    %" PRIi64 " (ms)\n"
-               "Excess Duration:    %" PRIi64 " (ms)\n",
-               a_stats.numFrames,
+               "Frame count:    %" PRIu64 "\n"
+               "Test number:    %" PRIu32 "\n"
+               "Average FPS:    %" PRIu32 "\n"
+               "Target FPS:     %" PRIu32 "\n"
+               "Actual Dur:     %" PRIi64 " (ms)\n"
+               "Target Dur:     %" PRIi64 " (ms)\n"
+               "Excess Dur:     %" PRIi64 " (ms)\n"
+               "Total Dur:      %" PRIi64 " (ms)\n",
+               a_stats.frameCount,
                m_startUpCountTotal,
-               a_stats.actualFPS,
+               a_stats.averageFPS,
                a_stats.targetFPS,
                ToMs(a_stats.actualDur),
                ToMs(a_stats.targetDur),
-               ToMs(a_stats.excessDur));
+               ToMs(a_stats.excessDur),
+               ToMs(a_stats.totalDur));
     }
 }
 

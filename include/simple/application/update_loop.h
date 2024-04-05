@@ -72,12 +72,13 @@ protected:
 
     struct FrameStats
     {
-        uint64_t numFrames = 0;
-        uint32_t actualFPS = 0;
+        uint64_t frameCount = 0;
+        uint32_t averageFPS = 0;
         uint32_t targetFPS = 0;
         Duration actualDur = {};
         Duration targetDur = {};
         Duration excessDur = {};
+        Duration totalDur = {};
     };
     virtual void OnFrameComplete(const FrameStats& a_frameStats);
 
@@ -177,16 +178,16 @@ inline void UpdateLoop::Run(uint32_t a_targetFPS)
             accumulatedDuration += lastDuration;
             lastEndTime = endTime;
 
-            // Increment the frame counter, calculate actual fps
-            // by rounding instead of truncating, and send stats.
-            ++frameStats.numFrames;
-            const intmax_t fpsDen = lastDuration.count();
-            const intmax_t fpsNum = oneSecond + (fpsDen / 2);
-            frameStats.actualFPS = (uint32_t)(fpsNum / fpsDen);
+            // Calculate average fps and send frame stat values.
+            const intmax_t frameCount = ++frameStats.frameCount;
+            frameStats.totalDur += lastDuration;
             frameStats.targetFPS = targetFPS;
             frameStats.actualDur = lastDuration;
             frameStats.targetDur = targetDuration;
             frameStats.excessDur = accumulatedDuration;
+            const intmax_t fpsNum = frameCount * oneSecond;
+            const intmax_t fpsDen = frameStats.totalDur.count();
+            frameStats.averageFPS = (uint32_t)(fpsNum / fpsDen);
             OnFrameComplete(frameStats);
         }
 
