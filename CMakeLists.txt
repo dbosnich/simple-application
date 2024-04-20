@@ -7,7 +7,7 @@
 ##--------------------------------------------------------------
 
 # Specify minimum tested CMake version.
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.19.4)
 
 # Define project settings.
 project(simple_application
