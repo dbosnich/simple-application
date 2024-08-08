@@ -39,8 +39,11 @@ add_executable(${TEST_TARGET} ${test_files})
 target_link_libraries(${TEST_TARGET} ${LIB_TARGET} Catch2::Catch2)
 target_include_directories(${TEST_TARGET} PRIVATE .)
 target_compile_options(${TEST_TARGET} PRIVATE
-  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX /GR->
-  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Werror -fno-rtti>)
+  $<$<COMPILE_LANGUAGE:CXX>:
+    $<$<CXX_COMPILER_ID:MSVC>: /GR- /W4 /WX->
+    $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fno-rtti -Wall -Werror -Wextra>
+  >
+)
 
 # Add the test executable to the RUN_TESTS target.
 add_test(NAME ${TEST_TARGET} COMMAND ${TEST_TARGET})
