@@ -40,7 +40,7 @@ target_link_libraries(${TEST_TARGET} ${LIB_TARGET} Catch2::Catch2)
 target_include_directories(${TEST_TARGET} PRIVATE .)
 target_compile_options(${TEST_TARGET} PRIVATE
   $<$<COMPILE_LANGUAGE:CXX>:
-    $<$<CXX_COMPILER_ID:MSVC>: /GR- /W4 /WX->
+    $<$<CXX_COMPILER_ID:MSVC>: /GR- /W4 /WX>
     $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-fno-rtti -Wall -Werror -Wextra>
   >
 )
