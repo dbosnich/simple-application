@@ -725,5 +725,7 @@ TEST_CASE("Test Application Thread", "[application][thread]")
 
     TestApplication testApplication2(testParams);
     std::thread runThread2 = testApplication2.RunInThread();
+    std::thread runThread3 = testApplication2.RunInThread(); // Should do nothing.
+    runThread3.join();
     runThread2.join();
 }

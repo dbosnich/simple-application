@@ -87,6 +87,7 @@ private:
     std::atomic_bool m_cappedFPS = { DEFAULT_CAPPED_FPS };
     std::atomic_bool m_shutDownRequested = { false };
     std::atomic_bool m_restartRequested = { false };
+    std::atomic_bool m_runningInThread = { false };
 };
 
 //--------------------------------------------------------------
@@ -207,7 +208,18 @@ inline std::thread UpdateLoop::RunInThread(uint32_t a_targetFPS)
 {
     std::thread runThread([this, a_targetFPS]()
     {
-        Run(a_targetFPS);
+        bool expected = false;
+        if (m_runningInThread.compare_exchange_strong(expected,
+                                                      true))
+        {
+            Run(a_targetFPS);
+            m_runningInThread.store(false,
+                                    std::memory_order_release);
+        }
+        else
+        {
+            printf("UpdateLoop already running in thread.\n");
+        }
     });
     return runThread;
 }
