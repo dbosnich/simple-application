@@ -10,6 +10,7 @@
 
 #include <atomic>
 #include <chrono>
+#include <cstdio>
 #include <thread>
 
 //! @file
